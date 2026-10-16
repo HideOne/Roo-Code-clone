@@ -1,4 +1,8 @@
 {
+	"web": {
+		"search": "联网搜索",
+		"fetch": "读取网页"
+	},
 	"greeting": "欢迎使用 Roo Code",
 	"task": {
 		"title": "任务",

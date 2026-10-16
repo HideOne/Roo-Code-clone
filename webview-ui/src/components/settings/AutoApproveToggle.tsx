@@ -9,6 +9,7 @@ type AutoApproveToggles = Pick<
 	| "alwaysAllowReadOnly"
 	| "alwaysAllowWrite"
 	| "alwaysAllowMcp"
+	| "alwaysAllowWeb"
 	| "alwaysAllowModeSwitch"
 	| "alwaysAllowSubtasks"
 	| "alwaysAllowExecute"
@@ -46,6 +47,13 @@ export const autoApproveSettingsConfig: Record<AutoApproveSetting, AutoApproveCo
 		descriptionKey: "settings:autoApprove.mcp.description",
 		icon: "plug",
 		testId: "always-allow-mcp-toggle",
+	},
+	alwaysAllowWeb: {
+		key: "alwaysAllowWeb",
+		labelKey: "settings:autoApprove.web.label",
+		descriptionKey: "settings:autoApprove.web.description",
+		icon: "globe",
+		testId: "always-allow-web-toggle",
 	},
 	alwaysAllowModeSwitch: {
 		key: "alwaysAllowModeSwitch",

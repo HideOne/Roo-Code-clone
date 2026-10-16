@@ -519,6 +519,12 @@ export class NativeToolCallParser {
 				}
 				break
 
+			case "web_search":
+				nativeArgs = { query: partialArgs.query }
+				break
+			case "fetch_url":
+				nativeArgs = { url: partialArgs.url }
+				break
 			case "skill":
 				if (partialArgs.skill !== undefined) {
 					nativeArgs = {
@@ -855,6 +861,16 @@ export class NativeToolCallParser {
 					}
 					break
 
+				case "web_search":
+					if (args.query !== undefined) {
+						nativeArgs = { query: args.query } as NativeArgsFor<TName>
+					}
+					break
+				case "fetch_url":
+					if (args.url !== undefined) {
+						nativeArgs = { url: args.url } as NativeArgsFor<TName>
+					}
+					break
 				case "skill":
 					if (args.skill !== undefined) {
 						nativeArgs = {

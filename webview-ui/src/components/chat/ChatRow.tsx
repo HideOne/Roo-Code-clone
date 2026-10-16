@@ -626,6 +626,19 @@ export const ChatRowContent = ({
 						</div>
 					</>
 				)
+			case "webSearch":
+			case "fetchUrl":
+				return (
+					<>
+						<div style={headerStyle}>
+							{toolIcon("globe")}
+							<span style={{ fontWeight: "bold" }}>
+								{t(`chat:web.${tool.tool === "webSearch" ? "search" : "fetch"}`)}
+							</span>
+						</div>
+						<div className="pl-6 break-words whitespace-pre-wrap">{tool.query || tool.url}</div>
+					</>
+				)
 			case "skill": {
 				const skillInfo = tool
 				return (

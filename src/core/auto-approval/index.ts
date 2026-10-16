@@ -11,13 +11,14 @@ import { ClineAskResponse } from "../../shared/WebviewMessage"
 
 import { isWriteToolAction, isReadOnlyToolAction } from "./tools"
 import { isMcpToolAlwaysAllowed } from "./mcp"
-import { getCommandDecision } from "./commands"
+import { getCommandDecision, containsDangerousSubstitution } from "./commands"
 
 // We have auto-approval actions for different categories.
 export type AutoApprovalState =
 	| "alwaysAllowReadOnly"
 	| "alwaysAllowWrite"
 	| "alwaysAllowMcp"
+	| "alwaysAllowWeb"
 	| "alwaysAllowModeSwitch"
 	| "alwaysAllowSubtasks"
 	| "alwaysAllowExecute"
@@ -119,13 +120,18 @@ export async function checkAutoApproval({
 		if (state.alwaysAllowExecute === true) {
 			const decision = getCommandDecision(text, state.allowedCommands || [], state.deniedCommands || [])
 
-			if (decision === "auto_approve") {
-				return { decision: "approve" }
-			} else if (decision === "auto_deny") {
+			if (decision === "auto_deny") {
 				return { decision: "deny" }
-			} else {
+			}
+
+			// Dangerous parameter substitutions are never auto-approved.
+			if (containsDangerousSubstitution(text)) {
 				return { decision: "ask" }
 			}
+
+			// With execute auto-approval enabled, run commands directly without requiring an
+			// explicit allowlist entry. The allowlist/denylist still drive precise deny rules.
+			return { decision: "approve" }
 		}
 	}
 
@@ -151,6 +157,12 @@ export async function checkAutoApproval({
 		// Auto-approval is intentional to provide a seamless experience when loading task instructions.
 		if (tool.tool === "skill") {
 			return { decision: "approve" }
+		}
+
+		// Web research (search + page reads) is read-only network access. Auto-approve when
+		// the user enabled the web toggle so it runs without a per-request approval prompt.
+		if (tool.tool === "webSearch" || tool.tool === "fetchUrl") {
+			return state.alwaysAllowWeb === true ? { decision: "approve" } : { decision: "ask" }
 		}
 
 		if (tool?.tool === "switchMode") {

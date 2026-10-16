@@ -7,6 +7,21 @@ describe("NativeToolCallParser", () => {
 	})
 
 	describe("parseToolCall", () => {
+		it("parses native web search and page reading calls", () => {
+			const search = NativeToolCallParser.parseToolCall({
+				id: "search-1",
+				name: "web_search",
+				arguments: JSON.stringify({ query: "世界观 历史资料" }),
+			})
+			expect(search?.type === "tool_use" && search.nativeArgs).toEqual({ query: "世界观 历史资料" })
+			const page = NativeToolCallParser.parseToolCall({
+				id: "page-1",
+				name: "fetch_url",
+				arguments: JSON.stringify({ url: "https://example.com" }),
+			})
+			expect(page?.type === "tool_use" && page.nativeArgs).toEqual({ url: "https://example.com" })
+		})
+
 		describe("read_file tool", () => {
 			it("should parse minimal single-file read_file args", () => {
 				const toolCall = {

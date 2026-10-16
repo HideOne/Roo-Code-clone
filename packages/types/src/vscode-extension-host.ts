@@ -239,6 +239,7 @@ export type ExtensionState = Pick<
 	| "alwaysAllowWriteOutsideWorkspace"
 	| "alwaysAllowWriteProtected"
 	| "alwaysAllowMcp"
+	| "alwaysAllowWeb"
 	| "alwaysAllowModeSwitch"
 	| "alwaysAllowSubtasks"
 	| "alwaysAllowFollowupQuestions"
@@ -709,6 +710,8 @@ export interface ClineSayTool {
 		| "runSlashCommand"
 		| "updateTodoList"
 		| "skill"
+		| "webSearch"
+		| "fetchUrl"
 	path?: string
 	// For readCommandOutput
 	readStart?: number
@@ -732,6 +735,7 @@ export interface ClineSayTool {
 	lineNumber?: number
 	startLine?: number // Starting line for read_file operations (for navigation on click)
 	query?: string
+	url?: string
 	batchFiles?: Array<{
 		path: string
 		lineSnippet: string

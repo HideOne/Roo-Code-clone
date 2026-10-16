@@ -1,4 +1,8 @@
 {
+	"web": {
+		"search": "Search the web",
+		"fetch": "Read a web page"
+	},
 	"greeting": "Welcome to Roo Code!",
 	"task": {
 		"title": "Task",

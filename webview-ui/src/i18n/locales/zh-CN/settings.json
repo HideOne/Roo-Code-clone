@@ -241,6 +241,10 @@
 			"label": "MCP",
 			"description": "允许自动调用MCP服务而无需批准"
 		},
+		"web": {
+			"label": "联网",
+			"description": "自动执行联网搜索和读取网页，无需批准"
+		},
 		"modeSwitch": {
 			"label": "模式",
 			"description": "自动在不同模式之间切换而无需批准"
